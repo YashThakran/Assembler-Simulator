@@ -1,4 +1,6 @@
-#!/bin/bash
-
-# Add command to run your program here
-echo "Hello World"
+class Assembly{
+    public static void main(String args[])
+    {
+    
+    }
+}
