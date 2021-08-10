@@ -1,6 +1,1 @@
-class Assembly{
-    public static void main(String args[])
-    {
-    
-    }
-}
+!#/bin/bash
