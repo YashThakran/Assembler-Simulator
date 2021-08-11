@@ -1,7 +1,7 @@
 import java.util.*;
 import java.io.*;
 
-public class test5 {
+public class assemble {
 	
 	public static String sub(String s1, String s2, String s3)
 	{
