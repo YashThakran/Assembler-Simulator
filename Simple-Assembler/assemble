@@ -23,6 +23,11 @@ public class assemble {
 		return "10011"+"0000000000";
 	}
 	
+	public static String movreg(String s1, String s2)
+	{
+		return "00011"+"00000"+s1+s2;
+	}
+	
 	public static void main(String[] args)
 	{
 		Scanner in=new Scanner(System.in);
@@ -35,7 +40,7 @@ public class assemble {
 		String arr[]=new String[256];
 		int i=0;
 		
-		do {
+	/*	do {
 			String s=in.nextLine();
 			
 			if(s=="sub")
@@ -154,7 +159,7 @@ public class assemble {
 			}
 			else {
 				System.out.println("Errors found. Program cannot be executed.");
-			}
+			}*/
 		}
 	
 }
