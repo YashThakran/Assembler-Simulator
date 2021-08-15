@@ -198,7 +198,16 @@ if __name__=='__main__':
         l.append(lis)                     #insert each instruction to a list
 
     line_count=0
-
+        
+    
+    a=-1                                #checking invalid variable declaration  
+    for i in instruction_list:
+        if i[1]!="Var":
+                a=1
+        if i[1]=="Var" and a==1 :
+                print("invalid variable declaration")
+                
+                
     for j in range(len(l)):
         if l[j]==[]:
             line_count+=1
