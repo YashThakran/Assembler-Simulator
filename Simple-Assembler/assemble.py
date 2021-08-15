@@ -1,7 +1,5 @@
 import os
 
-#all instructions and addresses declared globally
-
 reg_list=['R0','R1','R2','R3','R4','R5','R6']
 reg_address_list=['000','001','010','011','100','101','110']
 typeA_list=['add','sub','mul','xor','or','and']
@@ -10,14 +8,15 @@ typeC_list=['mov','div','not','cmp']
 typeD_list=['ld','st']
 typeE_list=['jmp','jlt','jgt','je']
 bin_list=[]
-endpoint=True             #boolean to determine valid endpoint
+label_dict={}
+endpoint=True
 
-def dectobin(num):               #function to convert decimal to binary
+def dectobin(num):     #decimal to binary
         if num >= 1:
             dectobin(num // 2)
         return num % 2 
 
-def bintostr(n):                     #function to convert binary to 8-bit string
+def bintostr(n):      #binary to string
     q=dectobin(n)
     s=str(q)
     p=len(s)
@@ -27,7 +26,7 @@ def bintostr(n):                     #function to convert binary to 8-bit string
         return (8-p)*'0'+s
 
 
-def A(st,r1,r2,r3):                               #function of type A to make a binary
+def A(st,r1,r2,r3):
 
     global reg_address_list
 
@@ -57,7 +56,7 @@ def A(st,r1,r2,r3):                               #function of type A to make a 
     elif st=='and':
         return '01100'+'00'+a+b+c
         
-def B(st,r1,r2):                                 #function of type B to make a binary
+def B(st,r1,r2):
 
     global reg_address_list
 
@@ -73,7 +72,7 @@ def B(st,r1,r2):                                 #function of type B to make a b
     elif st=="ls":
         return '01001'+a+r2
     
-def C(st,r1,r2):                                #function of type C to make a binary
+def C(st,r1,r2):
 
     global reg_address_list
 
@@ -95,7 +94,7 @@ def C(st,r1,r2):                                #function of type C to make a bi
     elif st=="cmp":
         return '01110'+'00000'+a+b
 
-def D(st,r1,mem_reg):                          #function of type D to make a binary
+def D(st,r1,mem_reg):
 
     global reg_address_list
 
@@ -109,7 +108,7 @@ def D(st,r1,mem_reg):                          #function of type D to make a bin
     elif st=="st":
         return '00101'+'000'+a+mem_reg
     
-def E(st,mem_add):                             #function of type E to make a binary
+def E(st,mem_add):
     if st=="jmp":
         return '01111'+'000'+mem_add
     elif st=="jlt":
@@ -119,10 +118,10 @@ def E(st,mem_add):                             #function of type E to make a bin
     elif st=="je":
         return '10010'+'000'+mem_add
     
-def F():                                      #function of type F to make a binary
+def F():
     return '10011'+'00000000000'
 
-def check(ins):                         # function to check each instruction with fields
+def check(ins):
 
     global bin_list
     global reg_list
@@ -167,15 +166,27 @@ def check(ins):                         # function to check each instruction wit
 
     elif len(ins)==3 and (ins[0] in typeD_list):
         if (ins[1] in reg_list) and ins[2][0]=='$' and (int(ins[2][1:])>=0 or int(ins[2][1:])<=255):
-            y=bintostr(int(ins[2][1:]))
+            if int(ins[2][1:])>=0 or int(ins[2][1:])<=255:
+                y=bintostr(int(ins[2][1:]))
+            elif ins[2] in label_dict:
+                z=label_dict[ins[2]]
+                y=bintostr(z)
+            else:
+                return False
             x=D(ins[0],ins[1],y)
             bin_list.append(x)
             endpoint=False
             return True
 
     elif len(ins)==2 and (ins[0] in typeE_list):
-        if ins[1][0]=='$' and (int(ins[1][1:])>=0 or int(ins[1][1:])<=255):
-            y=bintostr(int(ins[1][1:]))
+        if ins[1][0]=='$': 
+            if int(ins[1][1:])>=0 or int(ins[1][1:])<=255:
+                y=bintostr(int(ins[1][1:]))
+            elif ins[1] in label_dict:
+                z=label_dict[ins[2]]
+                y=bintostr(z)
+            else:
+                return False
             x=E(ins[0],y)
             bin_list.append(x)
             endpoint=False
@@ -185,48 +196,56 @@ def check(ins):                         # function to check each instruction wit
     return False
 
 
+def labeltest(ins,count):
+
+    global label_dict
+
+    if not (ins[0] in label_dict):
+        label_dict[ins[0][:-1]]=count
+        ins.remove(ins[0])
+        label_flag=check(ins)
+
+    return label_flag
+
+
 
 if __name__=='__main__':
 
-    f=open(r"sample.txt","r")
+    f=open(r"C:\Users\shiva\OneDrive\Documents\sample.txt","r")
 
     l=[]
 
     for line in f:
-        s=line.strip()                      #take each line and make a string
-        lis=s.split()                     
-        l.append(lis)                     #insert each instruction to a list
+        s=line.strip()
+        lis=s.split()
+        l.append(lis)
 
     line_count=0
-        
-    
-    a=-1                                #checking invalid variable declaration  
-    for i in instruction_list:
-        if i[1]!="Var":
-                a=1
-        if i[1]=="Var" and a==1 :
-                print("invalid variable declaration")
-                
-                
+
     for j in range(len(l)):
         if l[j]==[]:
             line_count+=1
             continue
         correct=check(l[j])
         line_count+=1
-        if not correct:                                            #check for syntax error
+        if not correct:
             print("Syntax Error at line ",line_count)
             break
-        elif (endpoint==True and len(l[j:])>=1 and l[j]!=[]) or l.count(['hlt'])>1:            #checking more than 1 hlt statements
+        elif (endpoint==True and len(l[j:])>=1 and l[j]!=[]) or l.count(['hlt'])>1:
             print("Illegal use of statement 'hlt'. Error at line ",l.index(['hlt'])+1)
             correct=False
             break
-        elif l[-1]!=['hlt']:                  #check for no hlt statement at last
+        elif l[-1]!=['hlt']:
             print("No endpoint detected.")
             correct=False
             break
+        if l[j][0][-1]==":":
+            fl=labeltest(l[j],line_count)
+            if not fl:
+                print("Error: Label can be declared only once. Error at line ",line_count)
+                break
 
-    if correct:                     #if no errors, print the binary
+    if correct:
         for i in bin_list:
             print(i,"\n")
 
