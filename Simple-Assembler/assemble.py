@@ -216,11 +216,11 @@ if __name__=='__main__':
     while True:
         try:
             line = input().split()
-            If line != "":
+            if line != "":
                 for i in line:
-                    lis=s.split()
-                    l.append(lis)
-        Except EOFError:
+                    i.strip()
+                l.append(line)
+        except EOFError:
             break 
     
 
@@ -253,5 +253,5 @@ if __name__=='__main__':
         for i in bin_list:
             print(i,"\n")
 
-    f.close()
+    
 
