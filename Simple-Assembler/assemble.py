@@ -167,7 +167,7 @@ def check(ins):
 
 if __name__=='__main__':
 
-    f=open(r"C:\Users\shiva\OneDrive\Documents\sample.txt","r")
+    f=open(r"sample.txt","r")
 
     l=[]
 
