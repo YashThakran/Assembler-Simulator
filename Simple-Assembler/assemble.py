@@ -1,4 +1,5 @@
 import os
+from sys import stdin
 
 reg_list=['R0','R1','R2','R3','R4','R5','R6']
 reg_address_list=['000','001','010','011','100','101','110']
@@ -210,15 +211,18 @@ def labeltest(ins,count):
 
 
 if __name__=='__main__':
-
-    f=open(r"C:\Users\shiva\OneDrive\Documents\sample.txt","r")
-
+    
     l=[]
-
-    for line in f:
-        s=line.strip()
-        lis=s.split()
-        l.append(lis)
+    while True:
+        try:
+            line = input().split()
+            If line != "":
+                for i in line:
+                    lis=s.split()
+                    l.append(lis)
+        Except EOFError:
+            break 
+    
 
     line_count=0
 
