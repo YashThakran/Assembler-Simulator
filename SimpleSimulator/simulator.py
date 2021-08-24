@@ -18,6 +18,9 @@ halt=False
 def bintodec(binary):
 
 
+    
+
+
 
 
 def dectobin(dec):
