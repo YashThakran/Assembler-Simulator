@@ -37,7 +37,15 @@ while(not halt):
         PC=PC+1
 
     if a[:5]=='00001':
-        sub
+        flag='0000000000000000'
+        if bintodec(a[13:16]) > bintodec(a[10:13]):
+            register_dict[a[7:10]]='0000000000000000'
+            flag='0000000000001000'
+            PC=PC+1
+        else:
+            diff=sum=bintodec(a[10:13])+bintodec(a[13:16])
+            register_dict[a[7:10]]=dectobin(diff)
+            PC=PC+1
 
     if a[:5]=='00010':
         move imm
