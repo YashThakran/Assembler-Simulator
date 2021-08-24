@@ -1,6 +1,6 @@
 
 
-register_dict={"000":0000000000000000,"001":0000000000000000,"010":0000000000000000,"011":0000000000000000,"100":0000000000000000,"101":0000000000000000,"110":0000000000000000}
+register_dict={"000":0000000000000000,"001":0000000000000000,"010":0000000000000000,"011":0000000000000000,"100":0000000000000000,"101":0000000000000000,"110":0000000000000000,"111":0000000000000000}
 
 #file open in list f
 f=[]
@@ -11,7 +11,6 @@ for i in range(0,256):
         memory[i]=f[i]
 
 PC=0
-flag='0000000000000000'
 
 halt=False
 
@@ -34,20 +33,20 @@ while(not halt):
     a=memory[PC]
 
     if a[:5]=='00000':
-        flag='0000000000000000'
+        register_dict['111']='0000000000000000'
         sum=bintodec(a[10:13])+bintodec(a[13:16])
         binsum=dectobin(sum)
         if len(binsum)>16:
             binsum=binsum[-16:]
-            flag='0000000000001000'
+            register_dict['111']='0000000000001000'
         register_dict[a[7:10]]=binsum
         PC=PC+1
 
     if a[:5]=='00001':
-        flag='0000000000000000'
+        register_dict['111']='0000000000000000'
         if bintodec(a[13:16]) > bintodec(a[10:13]):
             register_dict[a[7:10]]='0000000000000000'
-            flag='0000000000001000'
+            register_dict['111']='0000000000001000'
             PC=PC+1
         else:
             diff=bintodec(a[10:13])+bintodec(a[13:16])
@@ -55,11 +54,14 @@ while(not halt):
             PC=PC+1
 
     if a[:5]=='00010':
-        move imm
+        register_dict['111']='0000000000000000'
+        register_dict[a[5:8]]='00000000'+a[8:16]
+        PC=PC+1
     
     if a[:5]=='00011':
         register_dict[a[10:13]]=register_dict[a[13:16]]
         PC=PC+1
+        register_dict['111']='0000000000000000'
 
     if a[:5]=='00100':
         load
