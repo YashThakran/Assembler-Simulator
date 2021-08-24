@@ -58,7 +58,8 @@ while(not halt):
         move imm
     
     if a[:5]=='00011':
-        move reg
+        register_dict[a[10:13]]=register_dict[a[13:16]]
+        PC=PC+1
 
     if a[:5]=='00100':
         load
