@@ -11,15 +11,30 @@ for i in range(0,256):
         memory[i]=f[i]
 
 PC=0
+flag='0000000000000000'
 
 halt=False
+
+def bintodec(binary):
+
+
+
+
+def dectobin(dec):
+
+
+
+
 
 while(not halt):
     
     a=memory[PC]
 
     if a[:5]=='00000':
-        add
+        flag='0000000000000000'
+        sum=bintodec(a[10:13])+bintodec(a[13:16])
+        register_dict[a[7:10]]=dectobin(sum)
+        PC=PC+1
 
     if a[:5]=='00001':
         sub
