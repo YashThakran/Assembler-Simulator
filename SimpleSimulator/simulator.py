@@ -43,7 +43,7 @@ while(not halt):
             flag='0000000000001000'
             PC=PC+1
         else:
-            diff=sum=bintodec(a[10:13])+bintodec(a[13:16])
+            diff=bintodec(a[10:13])+bintodec(a[13:16])
             register_dict[a[7:10]]=dectobin(diff)
             PC=PC+1
 
