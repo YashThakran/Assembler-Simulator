@@ -33,7 +33,11 @@ while(not halt):
     if a[:5]=='00000':
         flag='0000000000000000'
         sum=bintodec(a[10:13])+bintodec(a[13:16])
-        register_dict[a[7:10]]=dectobin(sum)
+        binsum=dectobin(sum)
+        if len.binsum>16:
+            binsum=binsum[-16:]
+            flag='0000000000001000'
+        register_dict[a[7:10]]=binsum
         PC=PC+1
 
     if a[:5]=='00001':
