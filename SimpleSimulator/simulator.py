@@ -18,7 +18,7 @@ halt=False
 def bintodec(binary):
 
 
-    
+
 
 
 
@@ -37,7 +37,7 @@ while(not halt):
         flag='0000000000000000'
         sum=bintodec(a[10:13])+bintodec(a[13:16])
         binsum=dectobin(sum)
-        if len.binsum>16:
+        if len(binsum)>16:
             binsum=binsum[-16:]
             flag='0000000000001000'
         register_dict[a[7:10]]=binsum
