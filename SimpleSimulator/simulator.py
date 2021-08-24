@@ -19,9 +19,6 @@ def bintodec(binary):
 
 
 
-
-
-
 def dectobin(dec):
 
 
@@ -64,22 +61,42 @@ while(not halt):
         register_dict['111']='0000000000000000'
 
     if a[:5]=='00100':
-        load
+        register_dict['111']='0000000000000000'
+        register_dict[a[5:8]]=memory[int(a[-8:],2)]
+        PC=PC+1
 
     if a[:5]=='00101':
-        store
+        register_dict['111']='0000000000000000'
+        memory[int(a[-8:],2)]=register_dict[a[5:8]]
+        PC=PC+1
 
     if a[:5]=='00110':
-        multiply
+        register_dict['111']='0000000000000000'
+        mul=bintodec(a[10:13])*bintodec(a[13:16])
+        binmul=dectobin(mul)
+        if len(binmul)>16:
+            binmul=binmul[-16:]
+            register_dict['111']='0000000000001000'
+        register_dict[a[7:10]]=binmul
+        PC=PC+1
 
     if a[:5]=='00111':
-        divide
+        register_dict['111']='0000000000000000'
+        register_dict['000']=bintodec(a[10:13])//bintodec(a[13:16])
+        register_dict['001']=bintodec(a[10:13])%bintodec(a[13:16])
+        PC=PC+1
 
     if a[:5]=='01000':
-        right shift
+        register_dict['111']='0000000000000000'
+        rs=bintodec(register_dict[a[5:8]])>>int(a[8:],2)
+        register_dict[a[5:8]]=dectobin(rs)
+        PC=PC+1
 
     if a[:5]=='01001':
-        left shift
+        register_dict['111']='0000000000000000'
+        ls=bintodec(register_dict[a[5:8]])<<int(a[8:],2)
+        register_dict[a[5:8]]=dectobin(ls)
+        PC=PC+1
 
     if a[:5]=='01010':
         exclusive or
@@ -109,4 +126,4 @@ while(not halt):
         jump if equal
 
     if a[:5]=='10011':
-        halt
+        halt=True
