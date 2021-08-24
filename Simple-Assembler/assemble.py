@@ -213,6 +213,9 @@ def labeltest(ins,count):
 if __name__=='__main__':
     
     l=[]
+    
+
+
     while True:
         try:
             line = input().split()
