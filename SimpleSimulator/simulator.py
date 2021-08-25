@@ -32,7 +32,9 @@ def bintodec(binary):
     return (g)
 
 def dectobin(dec):
-    
+    if num >= 1:
+        dectobin(num // 2)
+    return num % 2
 
 
 
