@@ -1,9 +1,20 @@
-import matplotlib
+import matplotlib.pyplot as mlt
+import sys
 
 register_dict={"000":0000000000000000,"001":0000000000000000,"010":0000000000000000,"011":0000000000000000,"100":0000000000000000,"101":0000000000000000,"110":0000000000000000,"111":0000000000000000}
 
-#file open in list f
-f=[]
+files=open('inputfile.txt','w')
+files.truncate(0)
+for line in sys.stdin:
+    files.write(line)
+files.close()
+files=open('inputfile.txt','r')
+f=files.read().splitlines()
+for i in range(0,len(f)-1):
+    if(f[i][-1]=='\n'):
+        f[i]=f[i][0:-1]
+
+
 
 memory = ['0000000000000000' for i in range(256)]
 for i in range(0,256):
@@ -144,4 +155,14 @@ while(not halt):
     if a[:5]=='10011':
         halt=True
 
+    PC=bin(PC)[2:]
     
+
+
+
+    print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+    
+
+x,y=zip(*data)
+mlt.scatter(x,y)
+mlt.savefig('bonus.png')
