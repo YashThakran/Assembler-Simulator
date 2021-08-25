@@ -156,8 +156,8 @@ while(not halt):
         cycle=cycle+1
 
     elif a[:5]=='01110':
-        r1=bintodec(dectobin(a[10:13]))
-        r2=bintodec(dectobin(a[13:]))
+        r1=bintodec(a[10:13])
+        r2=bintodec(a[13:])
         if r1>r2:
             register_dict['111']='0000000000000010'
         elif r1<r2:
@@ -168,26 +168,26 @@ while(not halt):
         cycle=cycle+1
 
     elif a[:5]=='01111':
-        PC=bintodec(dectobin(a[8:]))
+        PC=bintodec(a[8:])
         cycle=cycle+1
 
     elif a[:5]=='10000':
         if a[13:14]=='1':
-            PC=bintodec(dectobin(a[8:]))
+            PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='10001':
         if a[14:15]=='1':
-            PC=bintodec(dectobin(a[8:]))
+            PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='10010':
         if a[15:]=='1':
-            PC=bintodec(dectobin(a[8:]))
+            PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
