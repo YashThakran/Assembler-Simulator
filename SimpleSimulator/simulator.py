@@ -17,12 +17,11 @@ data=[]
 halt=False
 
 def bintodec(binary):
-
-
-
+    g=int(binary,2)
+    return (g)
 
 def dectobin(dec):
-
+    
 
 
 
@@ -144,3 +143,5 @@ while(not halt):
 
     if a[:5]=='10011':
         halt=True
+
+    
