@@ -1,7 +1,7 @@
 import matplotlib.pyplot as mlt
 import sys
 
-register_dict={"000":0000000000000000,"001":0000000000000000,"010":0000000000000000,"011":0000000000000000,"100":0000000000000000,"101":0000000000000000,"110":0000000000000000,"111":0000000000000000}
+register_dict={"000":'0000000000000000',"001":'0000000000000000',"010":'0000000000000000',"011":'0000000000000000',"100":'0000000000000000',"101":'0000000000000000',"110":'0000000000000000',"111":'0000000000000000'}
 
 files=open('inputfile.txt','w')
 files.truncate(0)
@@ -80,14 +80,14 @@ while(not halt):
         register_dict['111']='0000000000000000'
 
     if a[:5]=='00100':
-        data.append([cycle,int(a[-8:],2])
+        data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         register_dict[a[5:8]]=memory[int(a[-8:],2)]
         PC=PC+1
         cycle=cycle+1
 
     if a[:5]=='00101':
-        data.append([cycle,int(a[-8:],2])
+        data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         memory[int(a[-8:],2)]=register_dict[a[5:8]]
         PC=PC+1
