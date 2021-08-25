@@ -32,9 +32,10 @@ def bintodec(binary):
     return (g)
 
 def dectobin(dec):
-    if num >= 1:
-        dectobin(num // 2)
-    return num % 2
+    j=bin(dec)[2:]
+    while len(j)<16:
+        j='0'+j
+    return j
 
 
 
