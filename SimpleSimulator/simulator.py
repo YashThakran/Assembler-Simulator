@@ -17,7 +17,7 @@ for i in range(0,len(f)-1):
 
 
 memory = ['0000000000000000' for i in range(256)]
-for i in range(0,256):
+for i in range(0,len(f)):
     if f[i]!= '0000000000000000':
         memory[i]=f[i]
 
