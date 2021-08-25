@@ -10,11 +10,10 @@ for line in sys.stdin:
 files.close()
 files=open('inputfile.txt','r')
 f=files.read().splitlines()
-h=0
-while (h<len(f)):
-    if(f[h][-1]=='\n'):
-        f[h]=f[h][0:-1]
-    h=h+1
+for i in range(0,len(f)-1):
+    if(f[i][-1]=='\n'):
+        f[i]=f[i][0:-1]
+
 
 
 memory = ['0000000000000000' for i in range(256)]
@@ -33,10 +32,8 @@ def bintodec(binary):
     return (g)
 
 def dectobin(dec):
-    j=bin(dec)[2:]
-    while len(j)<16:
-        j='0'+j
-    return j
+    
+
 
 
 
@@ -57,7 +54,7 @@ while(not halt):
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='00001':
+    elif a[:5]=='00001':
         register_dict['111']='0000000000000000'
         if bintodec(a[13:16]) > bintodec(a[10:13]):
             register_dict[a[7:10]]='0000000000000000'
@@ -70,33 +67,33 @@ while(not halt):
             PC=PC+1
             cycle=cycle+1
 
-    if a[:5]=='00010':
+    elif a[:5]=='00010':
         register_dict['111']='0000000000000000'
         register_dict[a[5:8]]='00000000'+a[8:16]
         PC=PC+1
         cycle=cycle+1
     
-    if a[:5]=='00011':
+    elif a[:5]=='00011':
         register_dict[a[10:13]]=register_dict[a[13:16]]
         PC=PC+1
         cycle=cycle+1
         register_dict['111']='0000000000000000'
 
-    if a[:5]=='00100':
+    elif a[:5]=='00100':
         data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         register_dict[a[5:8]]=memory[int(a[-8:],2)]
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='00101':
+    elif a[:5]=='00101':
         data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         memory[int(a[-8:],2)]=register_dict[a[5:8]]
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='00110':
+    elif a[:5]=='00110':
         register_dict['111']='0000000000000000'
         mul=bintodec(a[10:13])*bintodec(a[13:16])
         binmul=dectobin(mul)
@@ -107,70 +104,97 @@ while(not halt):
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='00111':
+    elif a[:5]=='00111':
         register_dict['111']='0000000000000000'
         register_dict['000']=bintodec(a[10:13])//bintodec(a[13:16])
         register_dict['001']=bintodec(a[10:13])%bintodec(a[13:16])
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01000':
+    elif a[:5]=='01000':
         register_dict['111']='0000000000000000'
         rs=bintodec(register_dict[a[5:8]])>>int(a[8:],2)
         register_dict[a[5:8]]=dectobin(rs)
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01001':
+    elif a[:5]=='01001':
         register_dict['111']='0000000000000000'
         ls=bintodec(register_dict[a[5:8]])<<int(a[8:],2)
         register_dict[a[5:8]]=dectobin(ls)
         PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01010':
-        exclusive or
+    elif a[:5]=='01010':
+        register_dict['111']='0000000000000000'
+        x=(bintodec(a[10:13]))^(bintodec(a[13:]))
+        register_dict[a[7:10]]=dectobin(x)
+        PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01011':
-        or
+    elif a[:5]=='01011':
+        register_dict['111']='0000000000000000'
+        o=(bintodec(a[10:13]))|(bintodec(a[13:]))
+        register_dict[a[7:10]]=dectobin(o)
+        PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01100':
-        and
+    elif a[:5]=='01100':
+        register_dict['111']='0000000000000000'
+        an=(bintodec(a[10:13]))&(bintodec(a[13:]))
+        register_dict[a[7:10]]=dectobin(an)
+        PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01101':
-        invert
+    elif a[:5]=='01101':
+        register_dict['111']='0000000000000000'
+        inv=~(bintodec(a[13:]))
+        register_dict[a[10:13]]=dectobin(inv)
+        PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01110':
-        compare
+    elif a[:5]=='01110':
+        r1=bintodec(dectobin(a[10:13]))
+        r2=bintodec(dectobin(a[13:]))
+        if r1>r2:
+            register_dict['111']='0000000000000010'
+        elif r1<r2:
+            register_dict['111']='0000000000000100'
+        elif r1==r2:
+            register_dict['111']='0000000000000001'
+        PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='01111':
-        unconditional jump
+    elif a[:5]=='01111':
+        PC=bintodec(dectobin(a[8:]))
         cycle=cycle+1
 
-    if a[:5]=='10000':
-        jump if less
+    elif a[:5]=='10000':
+        if a[13:14]=='1':
+            PC=bintodec(dectobin(a[8:]))
+        else:
+            PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='10001':
-        jump if greater
+    elif a[:5]=='10001':
+        if a[14:15]=='1':
+            PC=bintodec(dectobin(a[8:]))
+        else:
+            PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='10010':
-        jump if equal
+    elif a[:5]=='10010':
+        if a[15:]=='1':
+            PC=bintodec(dectobin(a[8:]))
+        else:
+            PC=PC+1
         cycle=cycle+1
 
-    if a[:5]=='10011':
+    elif a[:5]=='10011':
         halt=True
-        cycle=cycle+1
 
     PC=bin(PC)[2:]
-    while len(PC)<8:
-        PC='0'+PC
+    
 
 
 
