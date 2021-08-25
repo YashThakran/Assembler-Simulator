@@ -10,10 +10,11 @@ for line in sys.stdin:
 files.close()
 files=open('inputfile.txt','r')
 f=files.read().splitlines()
-for i in range(0,len(f)-1):
-    if(f[i][-1]=='\n'):
-        f[i]=f[i][0:-1]
-
+h=0
+while (h<len(f)):
+    if(f[h][-1]=='\n'):
+        f[h]=f[h][0:-1]
+    h=h+1
 
 
 memory = ['0000000000000000' for i in range(256)]
@@ -32,8 +33,10 @@ def bintodec(binary):
     return (g)
 
 def dectobin(dec):
-    
-
+    j=bin(dec)[2:]
+    while len(j)<16:
+        j='0'+j
+    return j
 
 
 
@@ -127,36 +130,47 @@ while(not halt):
 
     if a[:5]=='01010':
         exclusive or
+        cycle=cycle+1
 
     if a[:5]=='01011':
         or
+        cycle=cycle+1
 
     if a[:5]=='01100':
         and
+        cycle=cycle+1
 
     if a[:5]=='01101':
         invert
+        cycle=cycle+1
 
     if a[:5]=='01110':
         compare
+        cycle=cycle+1
 
     if a[:5]=='01111':
         unconditional jump
+        cycle=cycle+1
 
     if a[:5]=='10000':
         jump if less
+        cycle=cycle+1
 
     if a[:5]=='10001':
         jump if greater
+        cycle=cycle+1
 
     if a[:5]=='10010':
         jump if equal
+        cycle=cycle+1
 
     if a[:5]=='10011':
         halt=True
+        cycle=cycle+1
 
     PC=bin(PC)[2:]
-    
+    while len(PC)<8:
+        PC='0'+PC
 
 
 
