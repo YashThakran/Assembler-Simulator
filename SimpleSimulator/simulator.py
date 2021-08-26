@@ -48,44 +48,75 @@ while(not halt):
 
     if a[:5]=='00000':
         register_dict['111']='0000000000000000'
-        sum=bintodec(a[10:13])+bintodec(a[13:16])
+        sum=bintodec(register_dict[a[10:13]])+bintodec(register_dict[a[13:16]])
         binsum=dectobin(sum)
         if len(binsum)>16:
             binsum=binsum[-16:]
             register_dict['111']='0000000000001000'
         register_dict[a[7:10]]=binsum
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='00001':
         register_dict['111']='0000000000000000'
-        if bintodec(a[13:16]) > bintodec(a[10:13]):
+        if bintodec(register_dict[a[13:16]]) > bintodec(register_dict[a[10:13]]):
             register_dict[a[7:10]]='0000000000000000'
             register_dict['111']='0000000000001000'
+            PC=bin(PC)[2:]
+            while len(PC)<8:
+                PC='0'+PC
+            print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+            PC=bintodec(PC)
             PC=PC+1
             cycle=cycle+1
         else:
-            diff=bintodec(a[10:13])+bintodec(a[13:16])
+            diff=bintodec(register_dict[a[10:13]])+bintodec(register_dict[a[13:16]])
             register_dict[a[7:10]]=dectobin(diff)
+            PC=bin(PC)[2:]
+            while len(PC)<8:
+                PC='0'+PC
+            print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+            PC=bintodec(PC)
             PC=PC+1
             cycle=cycle+1
 
     elif a[:5]=='00010':
         register_dict['111']='0000000000000000'
         register_dict[a[5:8]]='00000000'+a[8:16]
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
     
     elif a[:5]=='00011':
         register_dict[a[10:13]]=register_dict[a[13:16]]
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
-        register_dict['111']='0000000000000000'
+        
 
     elif a[:5]=='00100':
         data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         register_dict[a[5:8]]=memory[int(a[-8:],2)]
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -93,6 +124,11 @@ while(not halt):
         data.append([cycle,int(a[-8:],2)])
         register_dict['111']='0000000000000000'
         memory[int(a[-8:],2)]=register_dict[a[5:8]]
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -104,6 +140,11 @@ while(not halt):
             binmul=binmul[-16:]
             register_dict['111']='0000000000001000'
         register_dict[a[7:10]]=binmul
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -111,6 +152,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         register_dict['000']=bintodec(a[10:13])//bintodec(a[13:16])
         register_dict['001']=bintodec(a[10:13])%bintodec(a[13:16])
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -118,6 +164,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         rs=bintodec(register_dict[a[5:8]])>>int(a[8:],2)
         register_dict[a[5:8]]=dectobin(rs)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -125,6 +176,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         ls=bintodec(register_dict[a[5:8]])<<int(a[8:],2)
         register_dict[a[5:8]]=dectobin(ls)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -132,6 +188,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         x=(bintodec(a[10:13]))^(bintodec(a[13:]))
         register_dict[a[7:10]]=dectobin(x)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -139,6 +200,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         o=(bintodec(a[10:13]))|(bintodec(a[13:]))
         register_dict[a[7:10]]=dectobin(o)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -146,6 +212,11 @@ while(not halt):
         register_dict['111']='0000000000000000'
         an=(bintodec(a[10:13]))&(bintodec(a[13:]))
         register_dict[a[7:10]]=dectobin(an)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
@@ -153,57 +224,97 @@ while(not halt):
         register_dict['111']='0000000000000000'
         inv=~(bintodec(a[13:]))
         register_dict[a[10:13]]=dectobin(inv)
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='01110':
-        r1=bintodec(a[10:13])
-        r2=bintodec(a[13:])
+        r1=bintodec(register_dict[a[10:13]])
+        r2=bintodec(register_dict[a[13:16]])
         if r1>r2:
             register_dict['111']='0000000000000010'
         elif r1<r2:
             register_dict['111']='0000000000000100'
         elif r1==r2:
             register_dict['111']='0000000000000001'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='01111':
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         PC=bintodec(a[8:])
         cycle=cycle+1
 
     elif a[:5]=='10000':
-        if a[13:14]=='1':
+        valueflag=register_dict['111']
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
+        if valueflag[13:14]=='1':
+            
             PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='10001':
-        if a[14:15]=='1':
+        valueflag=register_dict['111']
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
+        if valueflag[14:15]=='1':
             PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='10010':
-        if a[15:]=='1':
+        valueflag=register_dict['111']
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
+        if valueflag[15:]=='1':
             PC=bintodec(a[8:])
         else:
             PC=PC+1
         cycle=cycle+1
 
     elif a[:5]=='10011':
+        register_dict['111']='0000000000000000'
+        PC=bin(PC)[2:]
+        while len(PC)<8:
+            PC='0'+PC
+        print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
+        PC=bintodec(PC)
         halt=True
 
-    PC=bin(PC)[2:]
-    
 
-
-
-    print(PC+" "+register_dict['000']+" "+register_dict['001']+" "+register_dict['010']+" "+register_dict['011']+" "+register_dict['100']+" "+register_dict['101']+" "+register_dict['110']+" "+register_dict['111'])
-    
 
 x,y=zip(*data)
 mlt.scatter(x,y)
 mlt.savefig('bonus.png')
+for i in memory:
+    print(i)
